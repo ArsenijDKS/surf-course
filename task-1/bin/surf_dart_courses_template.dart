@@ -3,7 +3,7 @@ import 'package:surf_dart_courses_template/surf_dart_courses_template.dart'
 
 // Функция для подсчета среднего значения
 num averageSum(List<num> list) {
-  return list.fold<num>(0, (a, b) => a + b / list.length);
+  return list.fold<num>(0, (a, b) => a + b) / list.length;
 }
 
 void main() {
