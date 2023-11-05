@@ -1,153 +1,111 @@
-enum Countries { brazil, russia, turkish, spain, japan }
+//import 'dart:html';
 
-class Territory {
-  final int areaInHectare;
-  final List<String> crops;
-  final List<AgriculturalMachinery> machineries;
-
-  Territory(
-    this.areaInHectare,
-    this.crops,
-    this.machineries,
-  );
+abstract class OperatingSystem {
+  static const String windows = 'Windows';
+  static const String macOS = 'MacOS';
+  static const String linux = 'Linux';
 }
 
-class AgriculturalMachinery {
-  final String id;
-  final DateTime releaseDate;
+abstract interface class LoudFan {
+  bool get isLoudFanOn;
+  loudFanOn();
+  loudFanOff();
+}
 
-  AgriculturalMachinery(
-    this.id,
-    this.releaseDate,
-  );
+abstract class PC {
+  final String price;
+  final String supply;
 
-  /// Переопределяем оператор "==", чтобы сравнивать объекты по значению.
+  PC({required this.price, required this.supply});
+
+  void fanOn() {
+    print("You hear the sound of the fan turning on...");
+  }
+
+  void fanOff() {
+    print("You hear the sound of the fan turning off...");
+  }
+}
+
+class StationPC extends PC {
+  final String name;
+  final String year;
+  final String operatingSystem;
+
+  StationPC(
+      {required this.operatingSystem,
+      required this.name,
+      required this.year,
+      required super.supply,
+      required super.price});
+
+  StationPC.windows({
+    required this.name,
+    required this.year,
+    required super.supply,
+    required super.price,
+  }) : operatingSystem = OperatingSystem.windows;
+
+  StationPC.macOS({
+    required this.name,
+    required this.year,
+    required super.supply,
+    required super.price,
+  }) : operatingSystem = OperatingSystem.macOS;
+
+  StationPC.linux({
+    required this.name,
+    required this.year,
+    required super.supply,
+    required super.price,
+  }) : operatingSystem = OperatingSystem.linux;
+}
+
+class LaptopPC extends PC implements LoudFan {
+  final String name;
+  final String year;
+
+  bool _isLoudFanOn = false;
+  bool get isLoudFanOn => _isLoudFanOn;
+  final String operatingSystem;
+
+  LaptopPC(
+      {required this.name,
+      required this.year,
+      required this.operatingSystem,
+      required super.price,
+      required super.supply});
+
+  LaptopPC.windows({
+    required this.name,
+    required this.year,
+    required super.price,
+    required super.supply,
+  }) : operatingSystem = OperatingSystem.windows;
+
+  LaptopPC.macOS({
+    required this.name,
+    required this.year,
+    required super.price,
+    required super.supply,
+  }) : operatingSystem = OperatingSystem.macOS;
+
+  LaptopPC.linux({
+    required this.name,
+    required this.year,
+    required super.price,
+    required super.supply,
+  }) : operatingSystem = OperatingSystem.linux;
+
   @override
-  bool operator ==(Object? other) {
-    if (other is! AgriculturalMachinery) return false;
-    if (other.id == id && other.releaseDate == releaseDate) return true;
-
-    return false;
+  loudFanOff() {
+    _isLoudFanOn = false;
+    print("You hear loud fan stopped working");
   }
 
   @override
-  int get hashCode => id.hashCode ^ releaseDate.hashCode;
+  loudFanOn() {
+    _isLoudFanOn = true;
+    print("You hear loud fan started working");
+  }
 }
-
-final mapBefore2010 = <Countries, List<Territory>>{
-  Countries.brazil: [
-    Territory(
-      34,
-      ['Кукуруза'],
-      [
-        AgriculturalMachinery(
-          'Трактор Степан',
-          DateTime(2001),
-        ),
-        AgriculturalMachinery(
-          'Культиватор Сережа',
-          DateTime(2007),
-        ),
-      ],
-    ),
-  ],
-  Countries.russia: [
-    Territory(
-      14,
-      ['Картофель'],
-      [
-        AgriculturalMachinery(
-          'Трактор Гена',
-          DateTime(1993),
-        ),
-        AgriculturalMachinery(
-          'Гранулятор Антон',
-          DateTime(2009),
-        ),
-      ],
-    ),
-    Territory(
-      19,
-      ['Лук'],
-      [
-        AgriculturalMachinery(
-          'Трактор Гена',
-          DateTime(1993),
-        ),
-        AgriculturalMachinery(
-          'Дробилка Маша',
-          DateTime(1990),
-        ),
-      ],
-    ),
-  ],
-  Countries.turkish: [
-    Territory(
-      43,
-      ['Хмель'],
-      [
-        AgriculturalMachinery(
-          'Комбаин Василий',
-          DateTime(1998),
-        ),
-        AgriculturalMachinery(
-          'Сепаратор Марк',
-          DateTime(2005),
-        ),
-      ],
-    ),
-  ],
-};
-
-final mapAfter2010 = {
-  Countries.turkish: [
-    Territory(
-      22,
-      ['Чай'],
-      [
-        AgriculturalMachinery(
-          'Каток Кирилл',
-          DateTime(2018),
-        ),
-        AgriculturalMachinery(
-          'Комбаин Василий',
-          DateTime(1998),
-        ),
-      ],
-    ),
-  ],
-  Countries.japan: [
-    Territory(
-      3,
-      ['Рис'],
-      [
-        AgriculturalMachinery(
-          'Гидравлический молот Лена',
-          DateTime(2014),
-        ),
-      ],
-    ),
-  ],
-  Countries.spain: [
-    Territory(
-      29,
-      ['Арбузы'],
-      [
-        AgriculturalMachinery(
-          'Мини-погрузчик Максим',
-          DateTime(2011),
-        ),
-      ],
-    ),
-    Territory(
-      11,
-      ['Табак'],
-      [
-        AgriculturalMachinery(
-          'Окучник Саша',
-          DateTime(2010),
-        ),
-      ],
-    ),
-  ],
-};
