@@ -15,8 +15,14 @@ abstract interface class LoudFan {
 abstract class PC {
   final String price;
   final String supply;
+  final String name;
+  final String year;
 
-  PC({required this.price, required this.supply});
+  PC(
+      {required this.name,
+      required this.year,
+      required this.price,
+      required this.supply});
 
   void fanOn() {
     print("You hear the sound of the fan turning on...");
@@ -28,71 +34,66 @@ abstract class PC {
 }
 
 class StationPC extends PC {
-  final String name;
-  final String year;
   final String operatingSystem;
 
   StationPC(
       {required this.operatingSystem,
-      required this.name,
-      required this.year,
+      required super.name,
+      required super.year,
       required super.supply,
       required super.price});
 
   StationPC.windows({
-    required this.name,
-    required this.year,
+    required super.name,
+    required super.year,
     required super.supply,
     required super.price,
   }) : operatingSystem = OperatingSystem.windows;
 
   StationPC.macOS({
-    required this.name,
-    required this.year,
+    required super.name,
+    required super.year,
     required super.supply,
     required super.price,
   }) : operatingSystem = OperatingSystem.macOS;
 
   StationPC.linux({
-    required this.name,
-    required this.year,
+    required super.name,
+    required super.year,
     required super.supply,
     required super.price,
   }) : operatingSystem = OperatingSystem.linux;
 }
 
 class LaptopPC extends PC implements LoudFan {
-  final String name;
-  final String year;
-
   bool _isLoudFanOn = false;
   bool get isLoudFanOn => _isLoudFanOn;
   final String operatingSystem;
 
   LaptopPC(
-      {required this.name,
-      required this.year,
+      {required super.name,
+      required super.year,
       required this.operatingSystem,
       required super.price,
       required super.supply});
 
   LaptopPC.windows({
-    required this.name,
-    required this.year,
+    required super.name,
+    required super.year,
     required super.price,
     required super.supply,
   }) : operatingSystem = OperatingSystem.windows;
 
   LaptopPC.macOS({
-    required this.name,
-    required this.year,
+    required super.name,
+    required super.year,
     required super.price,
     required super.supply,
   }) : operatingSystem = OperatingSystem.macOS;
 
   LaptopPC.linux({
-    required this.name,
-    required this.year,
+    required super.name,
+    required super.year,
     required super.price,
     required super.supply,
   }) : operatingSystem = OperatingSystem.linux;
