@@ -1,112 +1,175 @@
-//import 'dart:html';
+// enum Sex { male, female }
 
-abstract class OperatingSystem {
-  static const String windows = 'Windows';
-  static const String macOS = 'MacOS';
-  static const String linux = 'Linux';
-}
+// class Person {
+//   final String name;
+//   final int age;
+//   final Sex sex;
 
-abstract interface class LoudFan {
-  bool get isLoudFanOn;
-  loudFanOn();
-  loudFanOff();
-}
+//   Person({
+//     required this.name,
+//     required this.age,
+//     required this.sex,
+//   });
 
-abstract class PC {
-  final String price;
-  final String supply;
+//   void speak() {
+//     print('My name is $name');
+//   }
+
+//   void printInfo() {
+//     print('Name: $name; age: $age; sex: $sex;');
+//   }
+// }
+
+// class SportPerson extends Person {
+//   final int competitiveSpirit;
+//   final int resilience;
+//   int _totalMedals;
+//   int get totalMedals => _totalMedals;
+
+//   SportPerson({
+//     required this.competitiveSpirit,
+//     required this.resilience,
+//     required super.name,
+//     required super.age,
+//     required super.sex,
+//     int totalMedals = 0,
+//   }) : _totalMedals = totalMedals;
+
+//   void winMedal() {
+//     _totalMedals++;
+//     print('$name won a medal!');
+//   }
+
+//   @override
+//   void printInfo() {
+//     super.printInfo();
+//     print('Competitive spirit: $competitiveSpirit; resilience: $resilience;'
+//         ' won medals: $_totalMedals');
+//   }
+// }
+
+// abstract interface class Swimmer {
+//   void swim();
+// }
+
+// class SwimmerSportPerson extends SportPerson implements Swimmer {
+//   SwimmerSportPerson({
+//     required super.competitiveSpirit,
+//     required super.resilience,
+//     required super.name,
+//     required super.age,
+//     required super.sex,
+//     super.totalMedals = 0,
+//   });
+
+//   @override
+//   void swim() {
+//     print('$name is swimming');
+//   }
+
+//   @override
+//   void printInfo() {
+//     super.printInfo();
+//     print('Sport: swimming');
+//   }
+// }
+
+// abstract interface class Training {
+//   void train();
+//   void provideFeedback();
+// }
+
+// class TrainerPerson extends Person implements Training {
+//   TrainerPerson({
+//     required super.name,
+//     required super.age,
+//     required super.sex,
+//   });
+
+//   @override
+//   void train() {
+//     print('$name is training');
+//   }
+
+//   @override
+//   void provideFeedback() {
+//     print('$name is providing a feedback');
+//   }
+// }
+
+enum Sex { male, female }
+
+class Sportsman {
   final String name;
-  final String year;
+  final int age;
+  final Sex sex;
+  final int weight;
+  //final String speech;
 
-  PC(
-      {required this.name,
-      required this.year,
-      required this.price,
-      required this.supply});
+  Sportsman({
+    required this.name,
+    required this.age,
+    required this.sex,
+    required this.weight,
+    //required this.speech,
+  });
 
-  void fanOn() {
-    print("You hear the sound of the fan turning on...");
-  }
-
-  void fanOff() {
-    print("You hear the sound of the fan turning off...");
+  void printInfo() {
+    print('Name: $name; age: $age; sex: $sex; Weight: $weight;');
   }
 }
 
-class StationPC extends PC {
-  final String operatingSystem;
-
-  StationPC(
-      {required this.operatingSystem,
-      required super.name,
-      required super.year,
-      required super.supply,
-      required super.price});
-
-  StationPC.windows({
+class ProfessionalSportsman extends Sportsman {
+  String speech;
+  String category;
+  int _totalWins = 0;
+  ProfessionalSportsman({
     required super.name,
-    required super.year,
-    required super.supply,
-    required super.price,
-  }) : operatingSystem = OperatingSystem.windows;
+    required super.age,
+    required super.sex,
+    required super.weight,
+    required this.speech,
+    required this.category,
+    int totalWins = 0,
+  }) : _totalWins = totalWins;
 
-  StationPC.macOS({
-    required super.name,
-    required super.year,
-    required super.supply,
-    required super.price,
-  }) : operatingSystem = OperatingSystem.macOS;
+  void winFight() {
+    _totalWins++;
+    print('$name won a fight');
+  }
 
-  StationPC.linux({
-    required super.name,
-    required super.year,
-    required super.supply,
-    required super.price,
-  }) : operatingSystem = OperatingSystem.linux;
+  void loseFight() {
+    _totalWins--;
+    print('$name lose a fight');
+  }
+
+  void winnerSpeech() {
+    print('My speech is - $speech');
+  }
+
+  @override
+  void printInfo() {
+    super.printInfo();
+    print('Category $category; total Wins: $_totalWins;');
+  }
 }
 
-class LaptopPC extends PC implements LoudFan {
-  bool _isLoudFanOn = false;
-  bool get isLoudFanOn => _isLoudFanOn;
-  final String operatingSystem;
+abstract interface class Theory {
+  void theoryStudying();
+}
 
-  LaptopPC(
+class NewSportsman extends Sportsman implements Theory {
+  int studyingHour;
+
+  NewSportsman(
       {required super.name,
-      required super.year,
-      required this.operatingSystem,
-      required super.price,
-      required super.supply});
-
-  LaptopPC.windows({
-    required super.name,
-    required super.year,
-    required super.price,
-    required super.supply,
-  }) : operatingSystem = OperatingSystem.windows;
-
-  LaptopPC.macOS({
-    required super.name,
-    required super.year,
-    required super.price,
-    required super.supply,
-  }) : operatingSystem = OperatingSystem.macOS;
-
-  LaptopPC.linux({
-    required super.name,
-    required super.year,
-    required super.price,
-    required super.supply,
-  }) : operatingSystem = OperatingSystem.linux;
+      required super.age,
+      required super.sex,
+      required super.weight,
+      required this.studyingHour});
 
   @override
-  loudFanOff() {
-    _isLoudFanOn = false;
-    print("You hear loud fan stopped working");
-  }
-
-  @override
-  loudFanOn() {
-    _isLoudFanOn = true;
-    print("You hear loud fan started working");
+  void theoryStudying() {
+    print("$name is studying $studyingHour hours");
   }
 }

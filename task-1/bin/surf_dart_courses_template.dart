@@ -2,26 +2,28 @@ import 'package:surf_dart_courses_template/surf_dart_courses_template.dart'
     as surf_dart_courses_template;
 
 void main(List<String> arguments) async {
-  var mainPC = surf_dart_courses_template.StationPC.windows(
-    supply: "outlet",
-    name: "Lenovo",
-    year: "2019",
-    price: "95 000",
+  final kickboxer1 = surf_dart_courses_template.ProfessionalSportsman(
+    name: 'Zach Apple',
+    age: 26,
+    sex: surf_dart_courses_template.Sex.male,
+    weight: 81,
+    speech: " I will win!",
+    category: 'light',
   );
 
-  var workLaptop = surf_dart_courses_template.LaptopPC.macOS(
-    price: "100 000",
-    supply: "battery",
-    name: "Work Mac",
-    year: "2022",
+  kickboxer1.winnerSpeech();
+  kickboxer1.printInfo();
+  kickboxer1.winFight();
+  kickboxer1.printInfo();
+
+  final kickboxer2 = surf_dart_courses_template.NewSportsman(
+    name: "Maria",
+    age: 16,
+    sex: surf_dart_courses_template.Sex.female,
+    weight: 56,
+    studyingHour: 12,
   );
 
-  mainPC.fanOn();
-  mainPC.fanOff();
-
-  workLaptop.fanOn();
-  workLaptop.fanOff();
-
-  workLaptop.loudFanOn();
-  workLaptop.loudFanOff();
+  kickboxer2.printInfo();
+  kickboxer2.theoryStudying();
 }
