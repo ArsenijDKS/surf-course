@@ -2,28 +2,42 @@ import 'package:surf_dart_courses_template/surf_dart_courses_template.dart'
     as surf_dart_courses_template;
 
 void main(List<String> arguments) async {
-  final kickboxer1 = surf_dart_courses_template.ProfessionalSportsman(
-    name: 'Zach Apple',
-    age: 26,
-    sex: surf_dart_courses_template.Sex.male,
-    weight: 81,
-    speech: " I will win!",
-    category: 'light',
+  final articles = '''
+1,хлеб,Бородинский,500,5
+2,хлеб,Белый,200,15
+3,молоко,Полосатый кот,50,53
+4,молоко,Коровка,50,53
+5,вода,Апельсин,25,100
+6,вода,Бородинский,500,5
+''';
+
+  // Список товаров
+  final products = surf_dart_courses_template.convertToList(
+    articles,
+    surf_dart_courses_template.ProductListFromStringConverter(),
   );
 
-  kickboxer1.winnerSpeech();
-  kickboxer1.printInfo();
-  kickboxer1.winFight();
-  kickboxer1.printInfo();
-
-  final kickboxer2 = surf_dart_courses_template.NewSportsman(
-    name: "Maria",
-    age: 16,
-    sex: surf_dart_courses_template.Sex.female,
-    weight: 56,
-    studyingHour: 12,
+  // Фильтр по категории
+  final filteredProductsByCategory = surf_dart_courses_template.applyFilter(
+    products,
+    surf_dart_courses_template.FilterProductByCategory('молоко'),
   );
+  surf_dart_courses_template.printProductList(
+      filteredProductsByCategory, '\nКатегория "молоко"');
 
-  kickboxer2.printInfo();
-  kickboxer2.theoryStudying();
+  // Фильтр по цене
+  final filteredProductsByPrice = surf_dart_courses_template.applyFilter(
+    products,
+    surf_dart_courses_template.FilterProductByPriceNotHigher(200),
+  );
+  surf_dart_courses_template.printProductList(
+      filteredProductsByPrice, '\nТовары с ценой не больше 200 рублей');
+
+  // Фильтр по остатку на складе
+  final filteredProductsByQuantity = surf_dart_courses_template.applyFilter(
+    products,
+    surf_dart_courses_template.FilterProductByQuantity(50),
+  );
+  surf_dart_courses_template.printProductList(
+      filteredProductsByQuantity, '\nТовары с остатком меньше 50 шт');
 }

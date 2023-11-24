@@ -1,76 +1,107 @@
-enum Sex { male, female }
-
-class Sportsman {
+class Product {
+  final int id;
+  final String category;
   final String name;
-  final int age;
-  final Sex sex;
-  final int weight;
-  //final String speech;
+  final double price;
 
-  Sportsman({
-    required this.name,
-    required this.age,
-    required this.sex,
-    required this.weight,
-    //required this.speech,
-  });
+  final double quantity;
 
-  void printInfo() {
-    print('Name: $name; age: $age; sex: $sex; Weight: $weight;');
-  }
-}
-
-class ProfessionalSportsman extends Sportsman {
-  String speech;
-  String category;
-  int _totalWins = 0;
-  ProfessionalSportsman({
-    required super.name,
-    required super.age,
-    required super.sex,
-    required super.weight,
-    required this.speech,
+  Product({
+    required this.id,
     required this.category,
-    int totalWins = 0,
-  }) : _totalWins = totalWins;
+    required this.name,
+    required this.price,
+    required this.quantity,
+  });
+}
 
-  void winFight() {
-    _totalWins++;
-    print('$name won a fight');
-  }
+abstract interface class ListDataConverter<T extends Object, V> {
+  List<T> convertToListData(V data);
+}
 
-  void loseFight() {
-    _totalWins--;
-    print('$name lose a fight');
-  }
-
-  void winnerSpeech() {
-    print('My speech is - $speech');
-  }
+class ProductListFromStringConverter
+    implements ListDataConverter<Product, String> {
+  const ProductListFromStringConverter();
 
   @override
-  void printInfo() {
-    super.printInfo();
-    print('Category $category; total Wins: $_totalWins;');
+  List<Product> convertToListData(String data) {
+    var products = data
+        .split('\n')
+        .where((element) => element.trim().isNotEmpty)
+        .map((element) {
+      final rowData = element.split(',');
+
+      return Product(
+        id: int.parse(rowData[0]),
+        category: rowData[1],
+        name: rowData[2],
+        price: double.parse(rowData[3]),
+        quantity: double.parse(rowData[4]),
+      );
+    }).toList();
+
+    return products;
   }
 }
 
-abstract interface class Theory {
-  void theoryStudying();
+List<T> convertToList<T extends Object, V>(
+    V data, ListDataConverter<T, V> converter) {
+  return converter.convertToListData(data);
 }
 
-class NewSportsman extends Sportsman implements Theory {
-  int studyingHour;
+abstract interface class Filter<T> {
+  bool apply(T value);
+}
 
-  NewSportsman(
-      {required super.name,
-      required super.age,
-      required super.sex,
-      required super.weight,
-      required this.studyingHour});
+class FilterProductByCategory implements Filter<Product> {
+  final String category;
+
+  FilterProductByCategory(this.category);
 
   @override
-  void theoryStudying() {
-    print("$name is studying $studyingHour hours");
+  bool apply(Product product) {
+    return product.category.trim() == category.trim();
+  }
+}
+
+class FilterProductByQuantity implements Filter<Product> {
+  final double quantity;
+
+  FilterProductByQuantity(this.quantity);
+
+  @override
+  bool apply(Product product) {
+    return product.quantity < quantity;
+  }
+}
+
+class FilterProductByPriceNotHigher implements Filter<Product> {
+  final double price;
+
+  FilterProductByPriceNotHigher(this.price);
+
+  @override
+  bool apply(Product product) {
+    return product.price <= price;
+  }
+}
+
+List<Product> applyFilter(List<Product> products, Filter<Product> filter) {
+  return products.where(filter.apply).toList();
+}
+
+abstract interface class IListDataConverter<T extends Object, V> {
+  List<T> convertToListData(V data);
+}
+
+void printProductList(List<Product> products, [String messageInfo = '']) {
+  if (messageInfo.isNotEmpty) {
+    print(messageInfo);
+  }
+
+  for (int i = 0; i < products.length; i++) {
+    final product = products[i];
+    print(
+        '${product.id}  ${product.category} ${product.name} ${product.price} рублей ${product.quantity} шт');
   }
 }
