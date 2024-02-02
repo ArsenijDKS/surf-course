@@ -31,28 +31,33 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  int incrementCount = 0;
-  int dicrementCount = 0;
+  var _incrementCount = 0;
+  var _dicrementCount = 0;
   bool _hasError = false;
   final _textEditingController = TextEditingController();
 
   void _incrementCounter() {
-    setState(() {
-      incrementCount++;
-      _counter++;
-    });
+    if (_counter >= 0) {
+      _hasError = false;
+      setState(() {
+        _incrementCount++;
+        _counter++;
+      });
+    }
   }
 
   void _dicrementCounter() {
-    setState(() {
-      dicrementCount++;
-      _counter--;
-      if (_counter < 0) {
-        _hasError = true;
-      } else {
-        _hasError = false;
-      }
-    });
+    if (_counter > 0) {
+      setState(() {
+        _dicrementCount++;
+        _counter--;
+        if (_counter == 0) {
+          _hasError = true;
+        } else {
+          _hasError = false;
+        }
+      });
+    }
   }
 
   @override
@@ -90,7 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                 height: 10,
               ),
-              Text(_hasError ? 'Ошибка при вводе числа' : ''),
+              Text(_hasError
+                  ? 'Ошибка при вводе числа - число должно быть больше 0!'
+                  : ''),
             ],
           ),
         ),
@@ -101,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'Кнопка плюс была нажата $incrementCount раз  ',
+                  'Кнопка плюс была нажата $_incrementCount раз  ',
                   style: const TextStyle(
                     fontSize: 16,
                   ),
@@ -119,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'Кнопка минус была нажата $dicrementCount раз  ',
+                  'Кнопка минус была нажата $_dicrementCount раз  ',
                   style: const TextStyle(
                     fontSize: 16,
                   ),
