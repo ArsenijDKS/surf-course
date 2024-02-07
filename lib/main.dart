@@ -34,45 +34,42 @@ class _MyHomePageState extends State<MyHomePage> {
   var _incrementCount = 0;
   var _dicrementCount = 0;
   bool _hasError = false;
-  final _textEditingController = TextEditingController();
+  // final _textEditingController = TextEditingController();
 
   void _incrementCounter() {
-    if (_counter >= 0) {
-      _hasError = false;
-      setState(() {
-        _incrementCount++;
-        _counter++;
-      });
-    }
+    setState(() {
+      _incrementCount++;
+      _counter++;
+    });
   }
 
   void _dicrementCounter() {
-    if (_counter > 0) {
-      setState(() {
+    setState(() {
+      if (_counter > 0) {
         _dicrementCount++;
         _counter--;
-        if (_counter == 0) {
-          _hasError = true;
-        } else {
-          _hasError = false;
-        }
-      });
-    }
+      }
+      if (_counter == 0) {
+        const snackBar =
+            SnackBar(content: Text('Больше вы не можете уменьшить счётчик!'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    });
   }
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _textEditingController.addListener(_dicrementCounter);
-  }
+  //   _textEditingController.addListener(_dicrementCounter);
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
+  // @override
+  // void dispose() {
+  //   super.dispose();
 
-    _textEditingController.removeListener(_dicrementCounter);
-  }
+  //   _textEditingController.removeListener(_dicrementCounter);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'Кнопка плюс была нажата $_incrementCount раз  ',
+                  'Прибавляли $_incrementCount раз  ',
                   style: const TextStyle(
                     fontSize: 16,
                   ),
@@ -126,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  'Кнопка минус была нажата $_dicrementCount раз  ',
+                  'Вычитали $_dicrementCount раз  ',
                   style: const TextStyle(
                     fontSize: 16,
                   ),
